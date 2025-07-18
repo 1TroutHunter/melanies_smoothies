@@ -42,26 +42,7 @@ if time_to_insert:
     session.sql(my_insert_stmt).collect()
     st.success('Your Smoothie is ordered!', icon="✅")
 
-#import requests
-#smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")
-#st.text(smoothiefroot_response.json())
-#sf_df = st.dataframe(data=smoothiefroot_response.json(), use_container_width=True)
-
 import requests
-
-api_url = "https://your-smoothiefroot-api.com/api/endpoint"  # Update this
-
-try:
-    smoothiefroot_response = requests.get(api_url)
-    smoothiefroot_response.raise_for_status()  # Raise an error for bad HTTP status codes
-
-    # Try to parse JSON only if content-type is correct
-    if "application/json" in smoothiefroot_response.headers.get("Content-Type", ""):
-        data = smoothiefroot_response.json()
-        st.json(data)
-    else:
-        st.warning("Response is not JSON:")
-        st.text(smoothiefroot_response.text)
-
-except requests.exceptions.RequestException as e:
-    st.error(f"Request failed: {e}")
+smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")
+#st.text(smoothiefroot_response.json())
+sf_df = st.dataframe(data=smoothiefroot_response.json(), use_container_width=True)
