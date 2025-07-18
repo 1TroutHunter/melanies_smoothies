@@ -42,7 +42,46 @@ if time_to_insert:
     session.sql(my_insert_stmt).collect()
     st.success('Your Smoothie is ordered!', icon="✅")
 
-import requests
-smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")
+#import requests
+#smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")
 #st.text(smoothiefroot_response.json())
-sf_df = st.dataframe(data=smoothiefroot_response.json(), use_container_width=True)
+#sf_df = st.dataframe(data=smoothiefroot_response, use_container_width=True)
+
+import requests
+import streamlit as st
+import pandas as pd
+
+# Make the API call
+smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")
+
+# Check if it's valid JSON
+try:
+    smoothiefroot_response.raise_for_status()
+    data = smoothiefroot_response.json()
+
+    # If the data is a single object (dict), put it in a list
+    if isinstance(data, dict):
+        data = [data]
+
+    # Convert to DataFrame and show
+    df = pd.DataFrame(data)
+    st.dataframe(df, use_container_width=True)
+
+except requests.exceptions.RequestException as e:
+    st.error(f"API request failed: {e}")
+
+except ValueError:
+    st.error("Response is not valid JSON.")
+    st.text(smoothiefroot_response.text)
+
+
+
+
+
+
+
+
+
+
+
+
